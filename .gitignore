@@ -1,0 +1,13 @@
+/index.html
+/tests
+/server/node_modules
+/server/log.txt
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+
+/client/flysmart/node_modules
+
+
