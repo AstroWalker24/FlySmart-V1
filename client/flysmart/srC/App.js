@@ -1,10 +1,14 @@
 import React from 'react'
 import './index.css'
+import Navbar from './components/Navbar'
 
 export default function App() {
   return (
-    <div className='font-bold underline'>
-      hello is tailwind activated ? 
-    </div>
+    <>
+    {/* rendering navbar */}
+    <Navbar/>
+    
+    </>
+    
   )
 }
