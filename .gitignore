@@ -2,6 +2,12 @@
 /tests
 /server/node_modules
 /server/log.txt
+/preprocessing/Airlines_Data_Cleaned.csv
+/preprocessing/Airlines_Data.csv
+/preprocessing/Airports_Data_Cleaned.csv
+/preprocessing/Airports_Data.csv
+/preprocessing/Flights_Data_Cleaned.csv
+/preprocessing/flights.csv 
 
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
