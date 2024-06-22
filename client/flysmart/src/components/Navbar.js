@@ -6,7 +6,7 @@ import Example  from './Dropdown'
 
 export default function Navbar() {
   return (
-    <nav className='bg-gray-900 shadow shadow-gray-300 w-100 px-8 md:px-auto'>
+    <nav className='bg-gray-900 shadow shadow-gray-300 w-100 px-8 md:px-auto border-b border-gray-700  '>
         <div className='md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap'>
 
           {/* Logo */}

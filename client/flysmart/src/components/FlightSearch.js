@@ -4,36 +4,22 @@ import kk from './images/kk.png';
 
 const FlightSearch = () => {
   return (
-    <section className="p-4 bg-green-900 min-h-screen flex flex-col items-center justify-center">
+    <section className="p-4 bg-gray-900 min-h-screen flex flex-col items-center justify-center">
+
       <div className="text-center mb-4">
-        <h1 className="text-4xl mb-2">Fly High With Us!</h1>
-        <h2 className="text-2xl">GARUDA FLIGHTS</h2>
+        <h1 className="text-4xl mb-2 font-overlay-font text-red-50 font-extrabold">Experience Luxury   above the clouds</h1>
+        <h2 className="text-2xl font-overlay-font text-red-50 font-bold">Flysmart AirWays</h2>
         <img src={kk} alt="Airplane" className="mx-auto my-4" />
       </div>
       
-      <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
-        <div className="bg-gray-100 p-6 rounded-lg">
+      <div className="w-full max-w-4xl bg-red-50 shadow-lg rounded-lg p-6">
+        <div className="bg-gray-200 p-6 rounded-lg">
           <form>
-            <div className="flex justify-between mb-4">
-              <div className="flex items-center space-x-4">
-                <label className="flex items-center space-x-2">
-                  <input type="radio" name="trip" value="roundTrip" defaultChecked />
-                  <span>Round Trip</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input type="radio" name="trip" value="oneWay" />
-                  <span>One Way</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input type="checkbox" name="directFlights" />
-                  <span>Direct Flights</span>
-                </label>
-              </div>
-            </div>
+           
             
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700">From</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">From</label>
                 <input
                   type="text"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg"
@@ -99,7 +85,7 @@ const FlightSearch = () => {
             </div>
             
             <div className="text-center">
-              <button type="submit" className="px-6 py-3 bg-yellow-500 text-white font-bold rounded-lg">
+              <button type="submit" className="px-6 py-3 bg-gray-900 text-white font-bold rounded-lg">
                 Search Flights
               </button>
             </div>
