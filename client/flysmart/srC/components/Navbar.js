@@ -17,7 +17,7 @@ export default function Navbar() {
           <div className='text-red-100 order-3 w-full md:w-auto md:order-2'>
             <ul className='flex font-semibold justify-between'>
               <li className='md:px-4 md:py-2 hover:text-red-500'><a href='#'>Dashboard</a></li>
-              <li className='md:px-4 md:py-2 hover:text-red-500'><a href='#'>Coupons</a></li>
+              <li className='md:px-4 md:py-2 hover:text-red-500'><a href='#'>Offers</a></li>
               <li className='md:px-4 md:py-2 hover:text-red-500'><a href='#'>About</a></li>
              
             </ul>
