@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
-import c1 from '/Users/saivarunavadhuta/Desktop/FlySmart-V1/client/flysmart/src/components/images/c1.jpg';
-import c2 from '/Users/saivarunavadhuta/Desktop/FlySmart-V1/client/flysmart/src/components/images/c2.jpg';
-import c3 from '/Users/saivarunavadhuta/Desktop/FlySmart-V1/client/flysmart/src/components/images/c3.jpg';
+import c1 from './images/c1.jpg';
+import c2 from './images/c2.jpg';
+import c3 from './images/c3.jpg';
+
 
 const images = [c1, c2, c3];
 
