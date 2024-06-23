@@ -4,4 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom animation for flight moving horizontally */
+@keyframes fly-horizontal {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 
+/* Adding custom utility classes for the animation */
+@layer utilities {
+  .animate-fly-horizontal {
+    animation: fly-horizontal 2s linear infinite; /* Reduced duration for faster movement */
+  }
+}

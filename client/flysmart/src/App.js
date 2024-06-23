@@ -10,14 +10,14 @@ import './index.css'
 import Navbar from './components/Navbar'
 import Carousel from './components/Carousel'
 import FlightSearch from './components/FlightSearch'
-import Thankyou from './components/Thankyou'
+import FlightResults from './components/FlightResults'
 
 
 export default function App() {
 
   const routes= useRoutes([
     {path:'/',element:<HomePage/>},
-    {path:'/thankyou',element:<Thankyou/>}
+    {path:'/flightResults',element:<FlightResults/>}
   ]);
 
   return routes;
