@@ -1,4 +1,7 @@
-import React from 'react'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import { useRoutes } from 'react-router-dom';
 
 // importing the global CSS file
 import './index.css'
@@ -7,23 +10,17 @@ import './index.css'
 import Navbar from './components/Navbar'
 import Carousel from './components/Carousel'
 import FlightSearch from './components/FlightSearch'
-
-// importing react Hooks
-import {useState,useEffect} from 'react';
-
-// importing react-router-dom
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Thankyou from './components/Thankyou'
 
 
 export default function App() {
-  return (
-    <>
-    <Navbar/>
-    <Carousel />
-    <FlightSearch />
-    </>
-    
-  )
+
+  const routes= useRoutes([
+    {path:'/',element:<HomePage/>},
+    {path:'/thankyou',element:<Thankyou/>}
+  ]);
+
+  return routes;
 }
 
 

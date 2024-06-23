@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import kk from './images/kk.png';
 import cities from './Airports.json';
+import { useNavigate } from 'react-router-dom';
 
 const FlightSearch = () => {
+  // updating fromCity field using serFromCity function
   const [fromCity, setFromCity] = useState('');
+
+  // updating Departure field using setDeparture function 
+  const [Departure, setDeparture] = useState('');
+
+  // updating Return field using setReturn function
+  const [Return, setReturn] = useState('');
+
+  // updating toCity field using setToCity function
   const [toCity, setToCity] = useState('');
+
+  // updating fromSuggestions field using setFromSuggestions function
   const [fromSuggestions, setFromSuggestions] = useState([]);
+
+  // updating toSuggestions field using setToSuggestions function
   const [toSuggestions, setToSuggestions] = useState([]);
+
+  // updating showFromSuggestions field using setShowFromSuggestions function
   const [showFromSuggestions, setShowFromSuggestions] = useState(false);
+
+  // updating showToSuggestions field using setShowToSuggestions function
   const [showToSuggestions, setShowToSuggestions] = useState(false);
+
+
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const filterCities = (query, setSuggestions) => {
@@ -28,11 +50,39 @@ const FlightSearch = () => {
     setShowSuggestions(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    // Add logic for submitting the form data
+  // function handling the submit form functionality
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+
+    try{
+      // requesting the server/API to post the form data
+      const response = await fetch('http://localhost:3000/flights/',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          fromCity:fromCity,
+          toCity:toCity,
+          DepartureDate:Departure,
+          ReturnDate:Return
+        })
+      })
+
+      if (response.ok){
+        navigate('/thankyou')
+      }
+      else {
+        console.log('Form Submission Failed');
+      }
+    }
+    catch(error){
+      console.log("An unknown error has occured",error)
+    }
+
   };
 
+  // function handling the key press event
   const handleKeyPress = (e, setCity, setShowSuggestions, suggestions) => {
     if (e.key === 'Enter' && suggestions.length > 0) {
       setCity(suggestions[0].split(',')[0].trim()); // Fill input with first suggestion
@@ -111,8 +161,9 @@ const FlightSearch = () => {
                 <input
                   type="date"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                  value=""
+                  value={Departure}
                   placeholder="Select departure date"
+                  onChange={e => setDeparture(e.target.value)}
                 />
               </div>
               <div>
@@ -120,8 +171,9 @@ const FlightSearch = () => {
                 <input
                   type="date"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                  value=""
+                  value={Return}
                   placeholder="Select return date"
+                  onChange={e=> setReturn(e.target.value)}
                 />
               </div>
             </div>

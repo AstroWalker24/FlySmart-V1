@@ -1,7 +1,7 @@
 {
   "name": "flysmart",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:3000",
   "private": true,
   "dependencies": {
     "@headlessui/react": "^2.1.0",
@@ -42,7 +42,7 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.4",
-    "@babel/plugin-proposal-private-property-in-object": "^7.17.0"
+    "@babel/plugin-proposal-private-property-in-object": "^7.17.0",
+    "tailwindcss": "^3.4.4"
   }
 }
