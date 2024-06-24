@@ -1,15 +1,14 @@
-const Pool = require('pg').Pool;
-
-// establishing the database connection
-
-
-// defining the parameters for the database connection 
-const pool=new Pool({
-    db:'AirWaysV1',
-    user:'postgres',
-    password:'$nadeem03',
-    host:'localhost',
-    port:5432
+const { Client } = require('pg')
+const client = new Client({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'AirWaysV1',
+  password: '$nadeem03',
+  port: 5432,
 })
+client.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
-module.exports=pool;
+module.exports = client;

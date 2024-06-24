@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import MainPageCard from './MainPageCard';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+
+// Dummy flight data for debugging 
 const flights = [
   { time: '10:00 AM', duration: '2h', layover: 'None', price: 5000, rewards: '500 points', airline: 'Air India', date: '2024-06-23' },
   { time: '10:00 AM', duration: '2h', layover: 'None', price: 5000, rewards: '500 points', airline: 'Indigo', date: '2024-06-23' },
@@ -15,7 +18,10 @@ const flights = [
   { time: '9:00 PM', duration: '2.5h', layover: '1h', price: 5300, rewards: '530 points', airline: 'Emirates', date: '2024-06-30' },
 ];
 
+
+// function to generate dates for the next 30 days
 const generateDates = (startDate, numDays) => {
+
   const dates = [];
   const start = new Date(startDate);
   for (let i = 0; i < numDays; i++) {
@@ -28,13 +34,24 @@ const generateDates = (startDate, numDays) => {
   return dates;
 };
 
+
+// FlightResults component
 const FlightResults = () => {
+  const location = useLocation();
+  // console.log(`The response at FlightResults is ${JSON.stringify(location.state.response)}`);
+
+  // getting the response from the previous page and storing it in flights variable
+  const flight_data=JSON.parse(JSON.stringify(location.state.response));
   const [selectedAirlines, setSelectedAirlines] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [startDate, setStartDate] = useState(new Date());
   const [dates, setDates] = useState(generateDates(new Date(), 30));
   const [priceRange, setPriceRange] = useState([5000, 6100]);
   const scrollContainerRef = useRef(null);
+
+  // console.log(flight_data);
+
+
 
   useEffect(() => {
     setDates(generateDates(startDate, 30));

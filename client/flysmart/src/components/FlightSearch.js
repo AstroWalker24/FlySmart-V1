@@ -8,6 +8,8 @@ const FlightSearch = () => {
   // updating fromCity field using serFromCity function
   const [fromCity, setFromCity] = useState('');
 
+  const [queryreponse,setqueryresponse] = useState([]);
+
    // updating toCity field using setToCity function
    const [toCity, setToCity] = useState('');
    
@@ -72,19 +74,27 @@ const FlightSearch = () => {
       });
 
       if (response.ok) {
-        setTimeout(() => {
-          setLoading(false);
-          navigate('/flightResults'); // Simulate navigation after delay
-        }, 2000); // Delay to show the animation
-      } else {
+        response.json().then(data => {
+            setTimeout(() => {
+                setLoading(false);
+                console.log(data[0]);
+                console.log(`The response at flightSearch is`, data);
+                navigate('/flightResults', { state: { "response": data[0] } }); // Simulate navigation after delay
+            }, 2000); // Delay to show the animation
+        }).catch(error => {
+            setLoading(false);
+            console.error('Error parsing JSON response:', error);
+        });
+    } else {
         setLoading(false);
         console.log('Form Submission Failed');
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log('An unknown error has occurred', error);
     }
-  };
+    } catch (error) {
+        setLoading(false);
+        console.log('An unknown error has occurred', error);
+    }
+    };
+    
 
   const handleKeyPress = (e, setCity, setShowSuggestions, suggestions) => {
     if (e.key === 'Enter' && suggestions.length > 0) {
