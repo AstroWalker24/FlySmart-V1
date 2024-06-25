@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import kk from './images/kk.png';
+import flight from './images/flight_white.png';
 import cargoImage from './images/cargo.png'; // Import the cargo image
 import cities from './Airports.json';
 
@@ -77,9 +78,19 @@ const FlightSearch = () => {
         response.json().then(data => {
             setTimeout(() => {
                 setLoading(false);
-                console.log(data[0]);
-                console.log(`The response at flightSearch is`, data);
-                navigate('/flightResults', { state: { "response": data[0] } }); // Simulate navigation after delay
+                // convert each data object present in the data to json format and store in the array
+                let data_array=JSON.parse(JSON.stringify(data));
+
+                // add the price to the data_arary
+                const price=Math.floor(Math.random() * (7000 - 5000 + 1)) + 5000;
+                data_array['price']=price;
+
+                // store the data_array in the response_tobesend variable
+                let response_tobesend=data_array;
+              
+
+                
+                navigate('/flightResults', { state: { "response": response_tobesend } }); // Simulate navigation after delay
             }, 2000); // Delay to show the animation
         }).catch(error => {
             setLoading(false);
@@ -120,7 +131,7 @@ const FlightSearch = () => {
           <div className="text-center mb-4">
             <h1 className="text-4xl mb-2 font-bold text-white">Fly High With Us!</h1>
             <h2 className="text-2xl text-white">GG FLIGHTS</h2>
-            <img src={kk} alt="Airplane" className="mx-auto my-4" />
+            <img src={flight} alt="Airplane" className="mx-auto" width={600} height={600} />
           </div>
           <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
             <div className="bg-gray-100 p-6 rounded-lg">

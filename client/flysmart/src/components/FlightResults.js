@@ -42,6 +42,15 @@ const FlightResults = () => {
 
   // getting the response from the previous page and storing it in flights variable
   const flight_data=JSON.parse(JSON.stringify(location.state.response));
+
+ 
+
+  console.log(flight_data)
+  console.log("The type of flight_data we are generating is ",typeof(flight_data))
+
+
+
+  // flight_data['price'] = 
   const [selectedAirlines, setSelectedAirlines] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [startDate, setStartDate] = useState(new Date());
