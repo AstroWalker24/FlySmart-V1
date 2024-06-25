@@ -47,6 +47,36 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
+app.get('/filter/', async (req, res) => {
+    const { airlines } = req.query;
+    console.log("Connected to the server")
+  
+    let query = `
+    SELECT flights.*
+    FROM flights
+    JOIN airlines ON flights.airline_id = airlines.airlineid
+  `;
+  let queryParams = [];
+
+  if (airlines) {
+    const airlineList = airlines.split(',');
+    const placeholders = airlineList.map((_, i) => `$${i + 1}`).join(',');
+    query += ` WHERE airlines.airlinename IN (${placeholders})`;
+    queryParams = airlineList;
+  }
+
+  try {
+    const result = await pool.query(query, queryParams);
+    res.json(result.rows);
+    console.log(result);
+  } catch (error) {
+    console.error('Error fetching filtered flights:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+
+
 const query = `
         SELECT 
             flights.flight_number,
