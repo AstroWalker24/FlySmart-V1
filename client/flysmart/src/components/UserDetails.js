@@ -3,11 +3,8 @@ import React from 'react';
 const UserDetails = () => {
     return (
         <div>
-           <h1>HEllo GG</h1>
-           <h1>HEllo GG</h1>
-           <h1>HEllo GG</h1>
-           <h1>HEllo GG</h1>
            
+
         </div>
     );
 };
