@@ -2,10 +2,11 @@
     "sqltools.connections": [
         {
             "previewLimit": 50,
-            "server": "localhost",
+            "server": "192.168.13.196",
             "port": 5432,
+            "askForPassword": true,
             "driver": "PostgreSQL",
-            "name": "gg",
+            "name": "sai",
             "database": "AirWaysV1",
             "username": "postgres"
         }

@@ -1,14 +1,42 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const MainPageCard = ({ flight }) => {
+import IndigoIcon from './images/IndiGo.svg';
+import SkyHighAirwaysIcon from './images/sky.png';
+import QatarIcon from './images/Qatar.svg';
+import EmiratesIcon from './images/Emirates.svg';
+
+const MainPage = ({ flight }) => {
+  const navigate = useNavigate();
+
   if (!flight) {
-    return null;
+    return null; // Render nothing if no flight data is provided
   }
 
+  // Mapping airline names to their respective icons
+  const airlineIcons = {
+    'Indigo': <img src={IndigoIcon} alt="Indigo" className="w-6 h-6" />,
+    'SkyHigh Airways': <img src={SkyHighAirwaysIcon} alt="SkyHigh Airways" className="w-6 h-6" />,
+    'Qatar': <img src={QatarIcon} alt="Qatar" className="w-6 h-6" />,
+    'Emirates': <img src={EmiratesIcon} alt="Emirates" className="w-6 h-6" />,
+  };
+
+  // Determine the icon based on the airlinename
+  const airlineIcon = flight.airlinename ? airlineIcons[flight.airlinename] : null;
+
+  // Handle navigation on button click
+  const handleBookFlight = () => {
+    navigate('/userDetails', { state: { flight } });
+  };
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex justify-between items-center text-sm">
+    <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex justify-between items-center text-sm transition-transform transform hover:scale-105">
       <div className="flex items-center">
-        <img src="/path/to/airline/logo.png" alt={flight.airlinename} className="w-10 h-10 mr-4"/>
+        {airlineIcon && (
+          <div className="mr-4">
+            {airlineIcon}
+          </div>
+        )}
         <div>
           <div className="font-semibold">Flight Number: {flight.flight_number}</div>
           <div className="text-gray-600">Departure Time: {new Date(flight.departure_time).toLocaleString()}</div>
@@ -20,10 +48,12 @@ const MainPageCard = ({ flight }) => {
         </div>
       </div>
       <div className="text-right">
-        <button className="bg-blue-500 text-white rounded-lg px-4 py-2 mt-2">View Prices</button>
+        <button className="bg-blue-500 text-white rounded-lg px-4 py-2 mt-2" onClick={handleBookFlight}>
+          Book Flight
+        </button>
       </div>
     </div>
   );
 };
 
-export default MainPageCard;
+export default MainPage;

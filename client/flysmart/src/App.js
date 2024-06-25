@@ -12,12 +12,14 @@ import Navbar from './components/Navbar'
 import Carousel from './components/Carousel'
 import FlightSearch from './components/FlightSearch'
 import FlightResults from './components/FlightResults'
+import UserDetails from './components/UserDetails'
 
 
 export default function App() {
 
   const routes= useRoutes([
     {path:'/',element:<HomePage/>},
+    {path: '/userDetails' , element: <UserDetails />},
     {path:'/flightResults',element:<FlightResults/>},
     {path:'/booking',element:<ReservationForm/>}
   ]);

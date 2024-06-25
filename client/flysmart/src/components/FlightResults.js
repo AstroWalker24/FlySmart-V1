@@ -1,35 +1,85 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainPage from './MainPageCard';
 import { useLocation } from 'react-router-dom';
 
 
+import IndigoIcon from './images/IndiGo.svg'; 
+import SkyHighAirwaysIcon from './images/sky.png'; 
+import QatarIcon from './images/Qatar.svg'; 
+import EmiratesIcon from './images/Emirates.svg'; 
+
 const FlightList = () => {
-
-
   const location = useLocation();
-  // console.log(The response at FlightResults is ${JSON.stringify(location.state.response)});
+  const flight_data = location.state.response;
 
-  // getting the response from the previous page and storing it in flights variable
-  const flight_data=JSON.parse(JSON.stringify(location.state.response));
+  console.log(flight_data);
+  console.log("The type of flight_data we are generating is ", typeof(flight_data));
 
- 
+  const airlines = [
+    { name: 'Indigo', type: 'domestic', icon: <img src={IndigoIcon} alt="Indigo" className="w-6 h-6" /> },
+    { name: 'SkyHigh Airways', type: 'international', icon: <img src={SkyHighAirwaysIcon} alt="SkyHigh Airways" className="w-6 h-6" /> },
+    { name: 'Qatar', type: 'international', icon: <img src={QatarIcon} alt="Qatar" className="w-6 h-6" /> },
+    { name: 'Emirates', type: 'international', icon: <img src={EmiratesIcon} alt="Emirates" className="w-6 h-6" /> },
+  ];
 
-  console.log(flight_data)
-  console.log("The type of flight_data we are generating is ",typeof(flight_data))
+  const [selectedAirlines, setSelectedAirlines] = useState([]);
+
+  const handleCheckboxChange = (airline) => {
+    setSelectedAirlines(prevState =>
+      prevState.includes(airline)
+        ? prevState.filter(item => item !== airline)
+        : [...prevState, airline]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedAirlines([]);
+  };
+
+  const filteredFlights = selectedAirlines.length
+    ? flight_data.filter(flight => selectedAirlines.includes(flight.airlinename))
+    : flight_data;
 
   return (
-    <div>
-      {flight_data.length === 0 ? (
-        <p>No flights available.</p>
-      ) : (
-        <ul>
-          {flight_data.map((flight, index) => (
-            <li key={index}>
-              <MainPage flight={flight} />
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="flex p-6">
+      <div className="w-1/5 p-4 bg-gray-100 rounded-lg shadow-md border border-black h-64 overflow-y-auto">
+        <h2 className="text-xl font-semibold mb-4">Filter by Airline</h2>
+        {airlines.map((airline, index) => (
+          <div key={index} className="mb-2">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                className="form-checkbox"
+                checked={selectedAirlines.includes(airline.name)}
+                onChange={() => handleCheckboxChange(airline.name)}
+              />
+              <span className="ml-2 flex items-center">
+                {airline.icon}
+                <span className="ml-2">{airline.name}</span>
+              </span>
+            </label>
+          </div>
+        ))}
+        <button
+          className="bg-red-500 text-white rounded-lg px-4 py-2 mt-4"
+          onClick={clearFilters}
+        >
+          Clear All
+        </button>
+      </div>
+      <div className="w-4/5 p-4">
+        {filteredFlights.length === 0 ? (
+          <p>No flights available.</p>
+        ) : (
+          <ul>
+            {filteredFlights.map((flight, index) => (
+              <li key={index}>
+                <MainPage flight={flight} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
