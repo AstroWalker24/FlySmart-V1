@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainPage from './MainPageCard';
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-
-
-// importing axios for making API calls 
 import axios from 'axios';
+import Navbar from './Navbar';
 
-// importing icons for airlines 
 import IndigoIcon from './images/IndiGo.svg';
 import SkyHighAirwaysIcon from './images/sky.png';
 import QatarIcon from './images/Qatar.svg';
@@ -15,13 +11,8 @@ import EmiratesIcon from './images/Emirates.svg';
 
 const FlightList = () => {
   const location = useLocation();
-  // initial flights data that we are getting from the API
-  const flight_data = location.state.response;
+  const flight_data = location.state.response || [];
 
-  // console.log(flight_data);
-  // console.log("The type of flight_data we are generating is ", typeof(flight_data));
-
-  // top airlines that we are showing in the filter 
   const airlines = [
     { name: 'Indigo', type: 'domestic', icon: <img src={IndigoIcon} alt="Indigo" className="w-6 h-6" /> },
     { name: 'SkyHigh Airways', type: 'international', icon: <img src={SkyHighAirwaysIcon} alt="SkyHigh Airways" className="w-6 h-6" /> },
@@ -29,12 +20,12 @@ const FlightList = () => {
     { name: 'Emirates', type: 'international', icon: <img src={EmiratesIcon} alt="Emirates" className="w-6 h-6" /> },
   ];
 
-  // setting the state for selected airlines and filtered flights
   const [selectedAirlines, setSelectedAirlines] = useState([]);
   const [filteredFlights, setFilteredFlights] = useState(flight_data);
-  const [priceRange, setPriceRange] = useState([8739, 42000]);
 
-  //handling the checkbox change 
+  // setting the default price range
+  const [priceRange, setPriceRange] = useState([5000, 7000]);
+
   const handleCheckboxChange = (airline) => {
     setSelectedAirlines(prevState =>
       prevState.includes(airline)
@@ -43,27 +34,23 @@ const FlightList = () => {
     );
   };
 
-  // clearing the filters
   const clearFilters = () => {
     setSelectedAirlines([]);
-    setPriceRange([8739, 42000]);
+    setPriceRange([5000,7000]);
   };
 
+
+
   const handlePriceChange = (event, index) => {
-  // Create a copy of the current priceRange array to avoid mutating state directly
     const newRange = [...priceRange];
-  // Update the specific index in the copied array with the new value from the input field, 
-  // converting the value to a number type
     newRange[index] = Number(event.target.value);
-    // Update the state with the new price range array
     setPriceRange(newRange);
   };
 
-  // calling the API to get the filtered flights
   useEffect(() => {
     const fetchFilteredFlights = async () => {
       try {
-        if (selectedAirlines.length || priceRange[0] !== 8739 || priceRange[1] !== 42000) {
+        if (selectedAirlines.length || priceRange[0] !== 5000 || priceRange[1] !== 7000) {
           const response = await axios.get('http://localhost:3000/filter/', {
             params: {
               airlines: selectedAirlines.join(','),
@@ -71,12 +58,19 @@ const FlightList = () => {
               maxPrice: priceRange[1]
             }
           });
-          setFilteredFlights(response.data);
+          if (Array.isArray(response.data)) {
+            console.log(response.data);
+            setFilteredFlights(response.data);
+          } else {
+            setFilteredFlights([]);
+            console.error('Unexpected response format:', response.data);
+          }
         } else {
           setFilteredFlights(flight_data);
         }
       } catch (error) {
         console.error('Error fetching filtered flights:', error);
+        setFilteredFlights([]);
       }
     };
 
@@ -84,6 +78,9 @@ const FlightList = () => {
   }, [selectedAirlines, priceRange, flight_data]);
 
   return (
+    <>
+
+    <Navbar/>
     <div className="flex p-6">
       <div className="w-1/5 flex flex-col space-y-4">
         <div className="p-4 bg-gray-100 rounded-lg shadow-md border border-black">
@@ -119,7 +116,7 @@ const FlightList = () => {
               <input
                 type="range"
                 min="5000"
-                max="7000"
+                max="70000"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(e, 0)}
                 className="ml-2"
@@ -131,7 +128,7 @@ const FlightList = () => {
               <input
                 type="range"
                 min="5000"
-                max="7000"
+                max="70000"
                 value={priceRange[1]}
                 onChange={(e) => handlePriceChange(e, 1)}
                 className="ml-2"
@@ -155,6 +152,7 @@ const FlightList = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

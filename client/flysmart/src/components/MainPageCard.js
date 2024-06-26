@@ -21,8 +21,17 @@ const MainPage = ({ flight }) => {
     'Emirates': <img src={EmiratesIcon} alt="Emirates" className="w-6 h-6" />,
   };
 
-  // Determine the icon based on the airlinename
-  const airlineIcon = flight.airlinename ? airlineIcons[flight.airlinename] : null;
+  // Determine the icon based on the airline_name
+  const airlineIcon = flight.airline_name ? airlineIcons[flight.airline_name] : null;
+  console.log("The flight results is ",flight);
+  if (flight['airlinename'] == undefined){
+    flight['airlinename'] = flight.airline_name;
+  }
+  if (flight['destination_airport_name'] == undefined){
+    flight['destination_airport_name'] = flight.dest_airport_name;
+  }
+  
+  // flight['destination_airport_name'] = flight.dest_airport_name;
 
   // Handle navigation on button click
   const handleBookFlight = () => {
@@ -30,7 +39,7 @@ const MainPage = ({ flight }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex justify-between items-center text-sm transition-transform transform hover:scale-105">
+    <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex justify-between items-center text-sm transition-transform transform hover:cursor-pointer">
       <div className="flex items-center">
         {airlineIcon && (
           <div className="mr-4">
