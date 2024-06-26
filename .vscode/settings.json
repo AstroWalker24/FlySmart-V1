@@ -2,11 +2,11 @@
     "sqltools.connections": [
         {
             "previewLimit": 50,
-            "server": "192.168.13.196",
+            "server": "192.168.95.196",
             "port": 5432,
             "askForPassword": true,
             "driver": "PostgreSQL",
-            "name": "sai",
+            "name": "nadeemdatabase",
             "database": "AirWaysV1",
             "username": "postgres"
         }
