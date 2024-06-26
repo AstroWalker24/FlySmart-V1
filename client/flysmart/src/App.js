@@ -13,6 +13,7 @@ import Carousel from './components/Carousel'
 import FlightSearch from './components/FlightSearch'
 import FlightResults from './components/FlightResults'
 import UserDetails from './components/UserDetails'
+import Payment from "./components/Payment"
 
 
 export default function App() {
@@ -21,7 +22,8 @@ export default function App() {
     {path:'/',element:<HomePage/>},
     {path: '/userDetails' , element: <UserDetails />},
     {path:'/flightResults',element:<FlightResults/>},
-    {path:'/booking',element:<ReservationForm/>}
+    {path:'/booking',element:<ReservationForm/>},
+    {path:'/payment',element:<Payment/>}
   ]);
 
   return routes;
