@@ -47,33 +47,38 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-app.get('/filter/', async (req, res) => {
-    const { airlines } = req.query;
-    console.log("Connected to the server")
-  
-    let query = `
-    SELECT flights.*
+    app.get('/filter/', async (req, res) => {
+        const { airlines } = req.query;
+        console.log("Connected to the server")
+    
+        let query = `
+    SELECT flights.*, 
+           src_airport.name as source_airport_name, 
+           dest_airport.name as dest_airport_name, 
+           airlines.airlinename as airline_name
     FROM flights
     JOIN airlines ON flights.airline_id = airlines.airlineid
-  `;
-  let queryParams = [];
+    JOIN airports AS src_airport ON flights.source_airport_id = src_airport.airport_id
+    JOIN airports AS dest_airport ON flights.destination_airport_id = dest_airport.airport_id
+    `;
+    let queryParams = [];
 
-  if (airlines) {
-    const airlineList = airlines.split(',');
-    const placeholders = airlineList.map((_, i) => `$${i + 1}`).join(',');
-    query += ` WHERE airlines.airlinename IN (${placeholders})`;
-    queryParams = airlineList;
-  }
+    if (airlines) {
+        const airlineList = airlines.split(',');
+        const placeholders = airlineList.map((_, i) => `$${i + 1}`).join(',');
+        query += ` WHERE airlines.airlinename IN (${placeholders})`;
+        queryParams = airlineList;
+      }
 
-  try {
-    const result = await pool.query(query, queryParams);
-    res.json(result.rows);
-    console.log(result);
-  } catch (error) {
-    console.error('Error fetching filtered flights:', error);
-    res.status(500).send('Server error');
-  }
-});
+    try {
+        const result = await pool.query(query, queryParams);
+        res.json(result.rows);
+        console.log(result);
+    } catch (error) {
+        console.error('Error fetching filtered flights:', error);
+        res.status(500).send('Server error');
+    }
+    });
 
 
 
