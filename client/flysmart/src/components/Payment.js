@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useLocation} from 'react-router-dom';
 
 const PaymentPage = () => {
     const [balance, setBalance] = useState(10000);
@@ -9,6 +10,9 @@ const PaymentPage = () => {
     const [selectedCoupon, setSelectedCoupon] = useState(null); // State to store selected coupon
     const [discount, setDiscount] = useState(0);
     const [coupons, setCoupons] = useState([]);
+
+    const location = useLocation();
+    const balance_data = location.state.response || 0;
 
     useEffect(() => {
         // Simulating a backend API call to fetch flight cost
@@ -64,7 +68,7 @@ const PaymentPage = () => {
             <div className="bg-white shadow-md p-6 mx-auto mt-8 max-w-3xl rounded-lg">
                 <h2 className="text-2xl font-semibold mb-4">Payment Page</h2>
                 <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 mb-4 rounded-md">
-                    Current Balance: {balance} units
+                    Current Balance: {balance_data} units
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 font-semibold mb-2">

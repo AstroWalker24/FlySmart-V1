@@ -1,12 +1,21 @@
+// importing libraries 
+
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+
+
+
 
 const UserDetails = () => {
     const [additionalMobile, setAdditionalMobile] = useState(false);
     const [passengerForms, setPassengerForms] = useState([]);
     const [showPassengerForm, setShowPassengerForm] = useState(false);
+    const navigate = useNavigate();
+
 
     const handleAddMobile = () => {
         setAdditionalMobile(true);
@@ -16,12 +25,15 @@ const UserDetails = () => {
         setAdditionalMobile(false);
     };
 
+
     const handleAddPassenger = () => {
-        setPassengerForms([...passengerForms, { 
-            firstName: '', lastName: '', street: '', zipCode: '', city: '', state: '', country: '', mobileNumber: '', additionalMobileNumber: '', email: '', gender: '', dob: '', classType: '', hasAdditionalMobile: false 
+        setPassengerForms([...passengerForms, {
+            firstName: '', lastName: '', street: '', zipCode: '', city: '', state: '', country: '', mobileNumber: '', additionalMobileNumber: '', email: '', gender: '', dob: '', classType: '', hasAdditionalMobile: false
         }]);
         setShowPassengerForm(true);
     };
+
+
 
     const handleRemovePassenger = (index) => {
         const updatedForms = passengerForms.filter((_, i) => i !== index);
@@ -31,6 +43,8 @@ const UserDetails = () => {
         }
     };
 
+
+
     const handlePassengerChange = (index, event) => {
         const { name, value } = event.target;
         const updatedForms = passengerForms.map((form, i) =>
@@ -38,6 +52,8 @@ const UserDetails = () => {
         );
         setPassengerForms(updatedForms);
     };
+
+
 
     const handleAddPassengerMobile = (index) => {
         const updatedForms = passengerForms.map((form, i) =>
@@ -53,66 +69,106 @@ const UserDetails = () => {
         setPassengerForms(updatedForms);
     };
 
-    const handleUserSubmit = (event) => {
+
+
+    const handleUserSubmit = async (event) => {
         event.preventDefault();
 
-        const form = event.target;
-        const firstName = form.firstName.value.trim();
-        const lastName = form.lastName.value.trim();
-        const street = form.street.value.trim();
-        const zipCode = form.zipCode.value.trim();
-        const city = form.city.value.trim();
-        const state = form.state.value.trim();
-        const country = form.country.value.trim();
-        const mobileNumber = form.mobileNumber.value.trim();
-        const additionalMobileNumber = additionalMobile ? form.additionalMobileNumber.value.trim() : '';
-        const email = form.email.value.trim();
-        const gender = form.gender.value.trim();
-        const dob = form.dob.value.trim();
-        const classType = form.classType.value.trim();
 
-        if (!firstName || !lastName || !street || !zipCode || !city || !state || !country || !mobileNumber || !email || !gender || !dob || !classType) {
+        const form = event.target;
+        console.log('The form data is:', form.firstName.value.trim());
+
+        // storing the user form data in a JSON
+        const userData = {
+            'firstName': form.firstName.value.trim(),
+            'lastName': form.lastName.value.trim(),
+            'street': form.street.value.trim(),
+            'zipCode': form.zipCode.value.trim(),
+            'city': form.city.value.trim(),
+            'state': form.state.value.trim(),
+            'country': form.country.value.trim(),
+            'mobileNumber': form.mobileNumber.value.trim(),
+            'additionalMobileNumber': additionalMobile ? form.additionalMobileNumber.value.trim() : '',
+            'email': form.email.value.trim(),
+            'gender': form.gender.value.trim(),
+            'dob': form.dob.value.trim(),
+            'classType': form.classType.value.trim()
+        };
+
+        console.log('The user data is:', userData);
+
+
+
+
+
+
+        console.log('hello-2')
+        try {
+            // posting the data using axios to the server
+            const response =await axios.post('http://localhost:3000/userRegister/', userData);
+            toast.success('User details submitted successfully!');
+            console.log('succesful submission')
+            console.log("The Axios Response is : ",response)
+            // navigate to the payment component
+            navigate('/payment',{'state':{"response":response.data.balance}});
+        }
+        catch (error) {
+            toast.error('Error in submitting the user details');
+            console.log('Error in submitting details:', error)
+        }
+        if (Object.values(userData).some(value => !value)) {
             toast.error('Please fill in all the fields.');
             return;
         }
 
-        if (!/^\d{10}$/.test(mobileNumber)) {
+        if (true) {
+            console.log("Hello from IF loop")
+        }
+
+        // checking whether mobile number is exactly 10 digits
+        if (!/^\d{10}$/.test(userData.mobileNumber)) {
             toast.error('Mobile number must be exactly 10 digits.');
             return;
         }
 
-        if (additionalMobile && additionalMobileNumber && !/^\d{10}$/.test(additionalMobileNumber)) {
+        // checking whether additional mobile number is exactly 10 digits
+        if (additionalMobile && userData.additionalMobileNumber && !/^\d{10}$/.test(userData.additionalMobileNumber)) {
             toast.error('Additional mobile number must be exactly 10 digits.');
             return;
         }
 
-        toast.success('User details submitted successfully!');
-        // Add form submission logic here
+
     };
 
-    const handlePassengerSubmit = (event) => {
+
+
+
+
+    const handlePassengerSubmit = async (event) => {
+
         event.preventDefault();
 
         for (let passenger of passengerForms) {
-            if (!passenger.firstName || !passenger.lastName || !passenger.dob || !passenger.gender || !passenger.mobileNumber || !passenger.street || !passenger.zipCode || !passenger.city || !passenger.state || !passenger.country || !passenger.email || !passenger.classType) {
-                toast.error('Please fill in all passenger details.');
+
+            console.log("The passenger details from frontend :",passenger)
+            console.log("The passenger forms from frontend :",passengerForms)
+
+            try {
+                console.log("Is try block being executed ?")
+                const response = await axios.post('http://localhost:3000/Passengers/', passenger);
+                toast.success('Passenger details submitted successfully!');
+                console.log("Succesfully submitted Passenger details")
+                console.log("The Axios Response is : ",response)
+                navigate('/payment',{ state: { "response":  response} })
+            } catch (error) {
+                toast.error('Failed to submit passenger details.');
+                console.log("Unsuccesful submission of passenger details")  
                 return;
             }
 
-            if (!/^\d{10}$/.test(passenger.mobileNumber)) {
-                toast.error('Mobile number must be exactly 10 digits.');
-                return;
-            }
-
-            if (passenger.hasAdditionalMobile && passenger.additionalMobileNumber && !/^\d{10}$/.test(passenger.additionalMobileNumber)) {
-                toast.error('Additional mobile number must be exactly 10 digits.');
-                return;
-            }
         }
-
-        toast.success('Passenger details submitted successfully!');
-        // Add form submission logic here
     };
+
 
     return (
         <div className="bg-white min-h-screen flex items-center justify-center">
