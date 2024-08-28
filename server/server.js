@@ -47,6 +47,11 @@ app.get('/', (req, res) => {
     res.send('<h1>Server is running on port 3000, please call this API for data</h1>');
 });
 
+//for invalid endpoints
+app.use("*" , (req,res) => {
+    res.send('<h1>Endpoint Not Found</h1>');
+});
+
 
 // defining the route for filtering the flights based on the airlines
 app.get('/filter/', async (req, res) => {
